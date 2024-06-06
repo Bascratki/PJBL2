@@ -1,5 +1,6 @@
-
-
+usuarios = [["lucas", "1234", 0], ["joao", "1234", 0]] # matriz de usuario = [login, senha, creditos]
+locacoes_efetuadas = [[],[]] #matriz de locacoes efetuadas = [login, data_retirada, hora_retirada , data de devolucao, hora da devolucao]
+locacoes = [["", "", "", "","",""],["", "", "", "","",""]]  #matriz de registro de locacoes = [login, data_retirada, hora_retirada , data de devolucao, hora da devolucao]
 
 def cadastrar_usuario():
     #funcao que recebe um nome de login e uma senha
@@ -44,7 +45,9 @@ def converter_para_minutos_totais(data, hora):
     minutos_totais += ((ano - 1) // 4) * 24 * 60  # Considerar anos bissextos
     
     return minutos_totais
-    
+
+
+            
 def fazer_locacao(usuario):
     #funcao que recebe como parametro o indice do usuario na lista usuarios[] que esta realizando a locacao
     #realiza a locacao de uma bicicleta para um usuario e atualiza a matriz de locacoes
@@ -151,66 +154,3 @@ def login_usuario():
             return usuario, login, senha
         
     return False, False, False
-
-while True:
-    print("\nSistema de Pagamentos - Serviço de Locação de Bicicletas")
-    print("1 - cadastrar usuário")
-    print("2 - fazer login")
-    print("0 - sair")
-    
-    opcao = input("escolha uma opção: ")
-    
-    if opcao == "0":
-        break
-    elif opcao == "1":
-        cadastrou_usuario = cadastrar_usuario()
-        if not cadastrou_usuario:
-            print("usuário já cadastrado.")
-        else:
-            print("usuário cadastrado com sucesso.")
-    elif opcao == "2":
-    
-        indice_usuario, login, senha = login_usuario()
-
-        if (login and senha):
-            while True:
-                print("\nusuário logado:", login)
-                print("créditos:", usuarios[indice_usuario][2])
-                print("1. fazer locação")
-                print("2. fazer devolução")
-                print("3. imprimir relatório de locações")
-                print("4. adicionar créditos")
-                print("0. sair")
-                
-                
-                opcao = input("escolha uma opção: ")
-                if opcao == "1":
-                    if usuarios[indice_usuario][2] >= 5:
-                        locacao = fazer_locacao(indice_usuario)
-                        if not locacao:
-                            print("data ou hora inválida. tente novamente.")
-                            locacao = fazer_locacao(indice_usuario)
-
-                    else:
-                        print("você precisa de pelo menos 5 créditos para alugar uma bicicleta.")
-                elif opcao == "2":
-                    devolucao = fazer_devolucao(indice_usuario)
-                    if not devolucao:
-                        print("Você não possui uma locação em andamento.")
-                elif opcao == "3":
-                    imprimir_relatorio(indice_usuario)
-                elif opcao == "4":
-                    
-                    atualizar_creditos(indice_usuario)
-                    print("créditos atualizados com sucesso para o usuário", login)
-                    print("novo saldo de créditos:", usuarios[indice_usuario][2])
-                    
-                elif opcao == "0":
-                    print("saindo do sistema...")
-                    break
-                else:
-                    print("opção inválida. tente novamente.")
-        else:
-            print("falha no login. tente novamente.")
-    else:
-            print("opção inválida. tente novamente.")
