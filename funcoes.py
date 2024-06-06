@@ -75,7 +75,7 @@ def fazer_locacao(usuario):
 def fazer_devolucao(usuario):
     #recebe como parametro o indice do usuario na lista usuarios[] que esta realizando a devolucao
     #funcao que realiza a devolucao de uma bicicleta para um usuario e atualiza a matriz de locacoes
-        if locacoes[usuario] == []:
+        if locacoes[usuario] == ["", "", "", "","",""]:
             return False
         else:
             dia_devolucao = input("digite o dia de devolução, no formato dd: ")
