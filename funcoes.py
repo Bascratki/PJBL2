@@ -52,11 +52,11 @@ def fazer_locacao(usuario):
     #funcao que recebe como parametro o indice do usuario na lista usuarios[] que esta realizando a locacao
     #realiza a locacao de uma bicicleta para um usuario e atualiza a matriz de locacoes
     if locacoes[usuario] == ["", "", "", "","",""]:
-            dia_retirada = input("digite o dia de retirada, no formato dd: ")
-            mes_retirada = input("diite o mês de retirada, no formato mm: ")
-            ano_retirada = input("digite o ano de retirada, no formato aaaa: ")
-            hora_retirada = input("digite a hora de retirada, no formato hh: ")
-            minuto_retirada = input("digite o minuto de retirada, no formato mm: ")
+            dia_retirada = input("Digite o dia de retirada, no formato dd: ")
+            mes_retirada = input("Digite o mês de retirada, no formato mm: ")
+            ano_retirada = input("Digite o ano de retirada, no formato aaaa: ")
+            hora_retirada = input("Digite a hora de retirada, no formato hh: ")
+            minuto_retirada = input("Digite o minuto de retirada, no formato mm: ")
             #avalia se a data e hora digitadas são válidas
             if len(dia_retirada) == 2 and len(mes_retirada) == 2 and len(ano_retirada) == 4 and len(hora_retirada) == 2 and len(minuto_retirada) == 2:
                 if (int(dia_retirada) < 31 and int(dia_retirada) > 0) and (int(mes_retirada) > 0 and int(mes_retirada) <= 12):
@@ -78,12 +78,12 @@ def fazer_devolucao(usuario):
         if locacoes[usuario] == ["", "", "", "","",""]:
             return False
         else:
-            dia_devolucao = input("digite o dia de devolução, no formato dd: ")
-            mes_devolucao = input("digite o mês de devolução, no formato mm: ")
-            ano_devolucao = input("digite o ano de devolução, no formato aaaa: ")
-            hora_devolucao = input("digite a hora de devolução, no formato hh: ")
-            minuto_devolucao = input("digite o minuto de devolução2, no formato mm: ")
-
+            dia_devolucao = input("Digite o dia de devolução, no formato dd: ")
+            mes_devolucao = input("Digite o mês de devolução, no formato mm: ")
+            ano_devolucao = input("Digite o ano de devolução, no formato aaaa: ")
+            hora_devolucao = input("Digite a hora de devolução, no formato hh: ")
+            minuto_devolucao = input("Digite o minuto de devolução, no formato mm: ")
+            
             data_devolucao = dia_devolucao + "/" + mes_devolucao + "/" + ano_devolucao
             hora_retirada = hora_devolucao + ":" + minuto_devolucao
             if len(dia_devolucao) == 2 and len(mes_devolucao) == 2 and len(ano_devolucao) == 4 and len(hora_devolucao) == 2 and len(minuto_devolucao) == 2:
@@ -120,25 +120,25 @@ def imprimir_relatorio(usuario):
     #funcao que recebe o indice do usuario na lista usuarios[] e
     #imprime um relatorio de todas as locacoes realizadas ate o momento
     if locacoes_efetuadas == []:
-        print("não há locações realizadas.")
+        print("Não há locações realizadas.")
         return False
     elif locacoes[usuario] == ["", "", "", "","",""]:
-        print("não há locações em andamento.")
+        print("Não há locações em andamento.")
         return False
 
     if locacoes[usuario][3] != "":
-        print("data de devolução estimada:", locacoes[usuario][3])
-        print("hora de devolução estimada:", locacoes[usuario][4])
+        print("Data de devolução:", locacoes[usuario][3])
+        print("Hora de devolução:", locacoes[usuario][4])
     else:
-        print("locação ainda em andamento")
+        print("Locação em andamento")
 
-    print("relatório de locações ja realizadas:")
+    print("Relatório de locações: ")
     for locacao_efetuada in range(len(locacoes_efetuadas[usuario])) :
-        print("usuário:", locacoes_efetuadas[usuario][locacao_efetuada][0])
-        print("data de retirada:", locacoes_efetuadas[usuario][locacao_efetuada][1])
-        print("hora de retirada:", locacoes_efetuadas[usuario][locacao_efetuada][2])
-        print("data de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][3])
-        print("hora de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][4])
+        print("Usuário:", locacoes_efetuadas[usuario][locacao_efetuada][0])
+        print("Data de retirada:", locacoes_efetuadas[usuario][locacao_efetuada][1])
+        print("Hora de retirada:", locacoes_efetuadas[usuario][locacao_efetuada][2])
+        print("Data de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][3])
+        print("Hora de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][4])
     print("relatório da locação atual:")
     print("usuário:", locacoes[usuario][0])
     print("data de retirada:", locacoes[usuario][1])
@@ -147,8 +147,8 @@ def imprimir_relatorio(usuario):
 def login_usuario():
     #funcao que pede para o usuario digitar um nome de login e uma senha
     #realiza o login de um usuario e retorna o indice do usuario na lista usuarios[], o login e a senha do usuario
-    login = input("digite o login do usuário: ")
-    senha = input("digite a senha do usuário: ")
+    login = input("Login: ")
+    senha = input("Senha: ")
     for usuario in range(len(usuarios)):
         if usuarios[usuario][0] == login and usuarios[usuario][1] == senha:
             return usuario, login, senha

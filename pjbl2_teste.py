@@ -9,16 +9,9 @@ while True:
     print("[3] Sair")
     print("-" * 42)
     
-    opcao = input("opção: ")
+    opcao = input("Opção: ")
     
     if opcao == "1":
-        cadastrou_usuario = f.cadastrar_usuario()
-        if not cadastrou_usuario:
-            print("usuário já cadastrado.")
-        else:
-            print("usuário cadastrado com sucesso.")
-    elif opcao == "2":
-    
         indice_usuario, login, senha = f.login_usuario()
 
         if (login and senha):
@@ -42,11 +35,11 @@ while True:
                     if f.usuarios[indice_usuario][2] >= 5:
                         locacao = f.fazer_locacao(indice_usuario)
                         if not locacao:
-                            print("data ou hora inválida. tente novamente.")
+                            print("Data ou hora inválida. Tente novamente.")
                             locacao = f.fazer_locacao(indice_usuario)
 
                     else:
-                        print("você precisa de pelo menos 5 créditos para alugar uma bicicleta.")
+                        print("Você precisa de pelo menos 5 créditos.")
                 elif opcao_usuario == "2":
                     devolucao = f.fazer_devolucao(indice_usuario)
                     if not devolucao:
@@ -56,19 +49,26 @@ while True:
                 elif opcao_usuario == "4":
                     
                     f.atualizar_creditos(indice_usuario)
-                    print("créditos atualizados com sucesso para o usuário", login)
-                    print("novo saldo de créditos:", f.usuarios[indice_usuario][2])
+                    print("Créditos atualizados com sucesso para o usuário", login)
+                    print("Novo saldo de créditos:", f.usuarios[indice_usuario][2])
                     
                 elif opcao_usuario == "0":
-                    print("saindo do sistema...")
+                    print("Voltando...")
                     break
                 else:
-                    print("opção inválida. tente novamente.")
+                    print("Opção inválida. Tente novamente.")
         else:
-            print("falha no login. tente novamente.")
+            print("Falha no login. Tente novamente.")
+
+    elif opcao == "2":
+        cadastrou_usuario = f.cadastrar_usuario()
+        if not cadastrou_usuario:
+            print("Usuário já cadastrado.")
+        else:
+            print("Usuário cadastrado com sucesso.")
 
     elif opcao == "3":
         print("Saindo do sistema...")
         break
     else:
-        print("opção inválida. tente novamente.")
+        print("Opção inválida. Tente novamente.")
