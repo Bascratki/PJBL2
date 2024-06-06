@@ -1,16 +1,17 @@
 import funcoes as f
 
 while True:
-    print("\nSistema de Pagamentos - Serviço de Locação de Bicicletas")
-    print("1 - cadastrar usuário")
-    print("2 - fazer login")
-    print("0 - sair")
+    print("-" * 42)
+    print("Bem-vindo ao Sistema de Aluguel de Bicicletas")
+    print("-" * 42)
+    print("[1] Login")
+    print("[2] Cadastro")
+    print("[3] Sair")
+    print("-" * 42)
     
-    opcao = input("escolha uma opção: ")
+    opcao = input("opção: ")
     
-    if opcao == "0":
-        break
-    elif opcao == "1":
+    if opcao == "1":
         cadastrou_usuario = f.cadastrar_usuario()
         if not cadastrou_usuario:
             print("usuário já cadastrado.")
@@ -22,17 +23,22 @@ while True:
 
         if (login and senha):
             while True:
-                print("\nusuário logado:", login)
-                print("créditos:", f.usuarios[indice_usuario][2])
-                print("1. fazer locação")
-                print("2. fazer devolução")
-                print("3. imprimir relatório de locações")
-                print("4. adicionar créditos")
-                print("0. sair")
+                print("-" * 42)
+                print("Bem-vindo ao Menu do Usuário")
+                print("-" * 42)
+                print("Usuário:", login)
+                print("Créditos:", f.usuarios[indice_usuario][2])
+                print("-" * 42)
+                print("[1] Alugar Bicicleta")
+                print("[2] Devolver Bicicleta")
+                print("[3] Consulta de Aluguéis")
+                print("[4] Recarga de Créditos")
+                print("[5] Sair")
+                print("-" * 42)
                 
+                opcao_usuario = input("Opção: ")
                 
-                opcao = input("escolha uma opção: ")
-                if opcao == "1":
+                if opcao_usuario == "1":
                     if f.usuarios[indice_usuario][2] >= 5:
                         locacao = f.fazer_locacao(indice_usuario)
                         if not locacao:
@@ -41,24 +47,28 @@ while True:
 
                     else:
                         print("você precisa de pelo menos 5 créditos para alugar uma bicicleta.")
-                elif opcao == "2":
+                elif opcao_usuario == "2":
                     devolucao = f.fazer_devolucao(indice_usuario)
                     if not devolucao:
                         print("Você não possui uma locação em andamento.")
-                elif opcao == "3":
+                elif opcao_usuario == "3":
                     f.imprimir_relatorio(indice_usuario)
-                elif opcao == "4":
+                elif opcao_usuario == "4":
                     
                     f.atualizar_creditos(indice_usuario)
                     print("créditos atualizados com sucesso para o usuário", login)
                     print("novo saldo de créditos:", f.usuarios[indice_usuario][2])
                     
-                elif opcao == "0":
+                elif opcao_usuario == "0":
                     print("saindo do sistema...")
                     break
                 else:
                     print("opção inválida. tente novamente.")
         else:
             print("falha no login. tente novamente.")
+
+    elif opcao == "3":
+        print("Saindo do sistema...")
+        break
     else:
-            print("opção inválida. tente novamente.")
+        print("opção inválida. tente novamente.")
