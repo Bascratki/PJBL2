@@ -3,26 +3,20 @@ admin_password = "admin123"
 
 tempo_credito = 1
 
+# Lista de usuários. Cada usuário é uma lista com login, senha e créditos.
 usuarios = [
-    {
-        "cpf": "",
-        "senha": "",
-        "créditos": 0,
-    }
+    ["095", "123", 30]
 ]
 
-locacoes = [
-    {
-        "cpf_locacao": "",
-        "data_retirada": "",
-        "hora_retirada": "",
-        "data_devolução": "",
-        "hora_devolução": "",
-    }
-]
+# Lista de locações. Cada locação é uma lista com os dados da locação.
+locacoes = []
 
+# Função que converte uma data e uma hora para minutos totais.
+def minutos_totais(data, hora):
+    minutos = int(data[0:2]) * 24 * 60 + int(data[3:5]) * 60 + int(hora[0:2]) * 60 + int(hora[3:5])
+    return minutos
 
-# Ínicio do código
+# Início do código
 while True:
     print("-" * 42)
     print("Bem-vindo ao Sistema de Aluguel de Bicicletas")
@@ -35,10 +29,11 @@ while True:
     option = input("Opção: ")
     
     if option == "1":
-        cpf = input("Digite o CPF: ")
+        login = input("Digite o login: ")
         senha = input("Digite a senha: ")
         
-        if cpf == admin_login and senha == admin_password:
+        # Menu do Administrador
+        if login == admin_login and senha == admin_password:
             while True:
                 print("-" * 42)
                 print("Bem-vindo ao Menu do Administrador")
@@ -54,58 +49,54 @@ while True:
                 if admin_option == "1":
                     if len(locacoes) == 0:
                         print("Nenhuma locação encontrada.")
-                        continue
                     else:
                         print("Relatório de Locações")
                         for locacao in locacoes:
-                            print("Usuário:", locacao["cpf_locacao"])
-                            print("Data de Retirada:", locacao["data_retirada"])
-                            print("Hora de Retirada:", locacao["hora_retirada"])
-                            print("Data de Devolução:", locacao["data_devolução"])
-                            print("Hora de Devolução:", locacao["hora_devolução"])
-                            break
+                            print(f"Usuário: {locacao[0]}")
+                            print(f"Data de Retirada: {locacao[1]}")
+                            print(f"Hora de Retirada: {locacao[2]}")
+                            print(f"Data de Devolução: {locacao[3] if len(locacao) > 3 else 'Não devolvido'}")
+                            print(f"Hora de Devolução: {locacao[4] if len(locacao) > 4 else 'Não devolvido'}")
+                            print("-" * 42)
                                             
                 elif admin_option == "2":
                     print("Verificação de Créditos")
                     if len(usuarios) == 0:
                         print("Nenhum usuário encontrado.")
-                        continue
                     else:
-                        cpf = input("Digite o CPF: ")
+                        login = input("Digite o login: ")
                         for usuario in usuarios:
-                            if usuario["cpf"] == cpf:
-                                print("CPF:", usuario["cpf"])
-                                print("Senha:", usuario["senha"])
-                                print("Créditos:", usuario["créditos"])
+                            if usuario[0] == login:
+                                print(f"Login: {usuario[0]}")
+                                print(f"Créditos: {usuario[2]}")
+                                print(f"Válidos para uso por {tempo_credito * usuario[2]} horas.")
                                 break
                         else:
                             print("Usuário não encontrado.")
-                            continue
-                        break
                                                             
                 elif admin_option == "3":
                     print("Atualização de Créditos")
-                    cpf = input("Digite o CPF: ")
-                    if usuario["cpf"] == cpf:
-                        credito = float(input("Digite o valor da recarga: "))
-                        usuario["créditos"] += credito
-                        print("Créditos atualizados com sucesso.")
-                        print("Novo saldo de créditos:", usuario["créditos"])
-                        print("Válidos para uso por", tempo_credito * usuario["créditos"], "horas.")
-                        break
+                    login = input("Digite o login: ")
+                    for usuario in usuarios:
+                        if usuario[0] == login:
+                            credito = float(input("Digite o valor da recarga: "))
+                            usuario[2] += credito
+                            print("Créditos atualizados com sucesso.")
+                            print(f"Novo saldo de créditos: {usuario[2]}")
+                            print(f"Válidos para uso por {tempo_credito * usuario[2]} horas.")
+                            break
                     else:
                         print("Usuário não encontrado.")
-                        continue
                                     
                 elif admin_option == "4":
                     print("Saindo...")
                     break
                 else:
                     print("Opção inválida. Tente novamente.")
-                    continue
+        # Menu do Usuário
         else:
             for usuario in usuarios:
-                if usuario["cpf"] == cpf and usuario["senha"] == senha:
+                if usuario[0] == login and usuario[1] == senha:
                     print("Login realizado com sucesso!")
                     while True:
                         print("-" * 42)
@@ -121,91 +112,97 @@ while True:
                         user_option = input("Opção: ")
                         
                         if user_option == "1":
-                            if usuario["créditos"] >= 5:
+                            if usuario[2] >= 5:
                                 print("Aluguel de Bicicleta")
-                                data_retirada = input("Data de retirada, no formato dd/mm/aaaa: ")
-                                hora_retirada = input("Hora de retirada, no formato hh:mm: ")
-                                data_devolucao = input("Data de devolução, no formato dd/mm/aaaa: ")
-                                hora_devolucao = input("Hora de devolução, no formato hh:mm: ")
-                                tempo_aluguel = (int(data_devolucao[0:2]) - int(data_retirada[0:2])) * 24 + (int(hora_devolucao[0:2]) - int(hora_retirada[0:2]))
-                                if tempo_aluguel <= usuario["créditos"]:
-                                    locacoes.append([usuario["cpf"], data_retirada, hora_retirada, data_devolucao, hora_devolucao])
-                                    usuario["créditos"] -= tempo_aluguel
-                                    print("Bicicleta alugada com sucesso!")
-                                    print("Créditos restantes:", usuario["créditos"])
-                                    print("Válidos para uso por", tempo_credito * usuario["créditos"], "horas.")
+                                data_retirada = input("Digite a data de retirada, no formato dd/mm: ")
+                                hora_retirada = input("Digite a hora de retirada, no formato hh:mm: ")
+                                if len(data_retirada) == 5 and len(hora_retirada) == 5:
+                                    if (int(data_retirada[0:2]) <= 31 and int(data_retirada[0:2]) > 0) and (int(data_retirada[3:5]) > 0 and int(data_retirada[3:5]) <= 12):
+                                        if (int(hora_retirada[0:2]) >= 0 and int(hora_retirada[0:2]) < 24) and (int(hora_retirada[3:5]) >= 0 and int(hora_retirada[3:5]) < 60):
+                                            locacoes.append([usuario[0], data_retirada, hora_retirada])
+                                            print("Aluguel realizado com sucesso!")
+                                            print("Hora de retirada:", locacoes[-1][2])
+                                        else:
+                                            print("Hora inválida.")
+                                    else:
+                                        print("Data inválida.")
                                 else:
-                                    print("Créditos insuficientes para realizar a locação.")
-                                    print("Você precisa de pelo menos 5 créditos para alugar uma bicicleta.")
-                                    continue
+                                    print("Data inválida.")
                             else:
-                                print("Créditos insuficientes para realizar a locação.")
-                                print("Você precisa de pelo menos 5 créditos para alugar uma bicicleta.")
-                                continue
-                            
+                                print("Créditos insuficientes. Recarregue com pelo menos 5 créditos.")
+                                                                                                                            
                         elif user_option == "2":
-                            if len(locacoes) == 0:
-                                print("Nenhuma bicicleta alugada.")
-                                continue
-                            else:
-                                for locacao in locacoes:
-                                    print("Devolução de Bicicleta")
-                                    if locacao["cpf_locacao"] == usuario["cpf"]:
-                                        locacao["data_devolução"] = input("Data de Devolução: ")
-                                        locacao["hora_devolucao"] = input("Hora de Devolução: ")
-                                        # Erro aqui
-                                        print("Bicicleta devolvida com sucesso!")
-                                        break
-                                else:
-                                    print("Nenhuma bicicleta alugada.")
-                                    continue
-                            
-                        elif user_option == "3":
+                            print("Devolução de Bicicleta")
                             for locacao in locacoes:
-                                # Erro aqui
-                                if locacao["cpf_locacao"] == usuario["cpf"]:
-                                    print("Consulta de Aluguéis")
-                                    print("Data de Retirada:", locacao["data_retirada"])
-                                    print("Hora de Retirada:", locacao["hora_retirada"])
-                                    print("Data de Devolução:", locacao["data_devolução"])
-                                    print("Hora de Devolução:", locacao["hora_devolucao"])
+                                if locacao[0] == usuario[0]:
+                                    locacao.append(input("Digite a data de devolução, no formato dd/mm: "))
+                                    locacao.append(input("Digite a hora de devolução, no formato hh:mm: "))
+                                    data_retirada = locacao[1]
+                                    hora_retirada = locacao[2]
+                                    data_devolucao = locacao[3]
+                                    hora_devolucao = locacao[4]
+                                    minutos_retirada = minutos_totais(data_retirada, hora_retirada)
+                                    minutos_devolucao = minutos_totais(data_devolucao, hora_devolucao)
+                                    diferenca_minutos = minutos_devolucao - minutos_retirada
+                                    horas_utilizadas = (diferenca_minutos % (24 * 60)) // 60
+                                    print(horas_utilizadas)
+                                    print("Devolução realizada com sucesso!")
+                                    print("Tempo de utilização: ", horas_utilizadas)
+                                    print("O preço do aluguel foi de R$", horas_utilizadas)
+                                    usuario[2] -= horas_utilizadas
+                                    break
                             else:
+                                print("Nenhuma bicicleta alugada.")
+                                
+                        elif user_option == "3":
+                            print("Consulta de Aluguéis")
+                            alugueis_encontrados = False
+                            for locacao in locacoes:
+                                if locacao[0] == usuario[0]:
+                                    print(f"Data de Retirada: {locacao[1]}")
+                                    print(f"Hora de Retirada: {locacao[2]}")
+                                    if len(locacao) > 3:
+                                        print(f"Data de Devolução: {locacao[3]}")
+                                        print(f"Hora de Devolução: {locacao[4]}")
+                                    else:
+                                        print("Bicicleta ainda não devolvida.")
+                                    print("-" * 42)
+                                    alugueis_encontrados = True
+                            if not alugueis_encontrados:
                                 print("Nenhum aluguel encontrado.")
-                                continue
                             
                         elif user_option == "4":
                             print("Recarga de Créditos")
-                            credito = float(input("Digite o valor da recarga: "))
-                            usuario["créditos"] += credito
+                            credito = int(input("Digite o valor da recarga: "))
+                            usuario[2] += credito
                             print("Créditos atualizados com sucesso.")
-                            print("Novo saldo de créditos:", usuario["créditos"])
-                            print("Válidos para uso por", tempo_credito * usuario["créditos"], "horas.")
+                            print(f"Novo saldo de créditos: {usuario[2]}")
+                            print(f"Válidos para uso por {tempo_credito * usuario[2]} horas.")
                         
                         elif user_option == "5":
                             print("Saindo...")
                             break
                         else:
                             print("Opção inválida. Tente novamente.")
-                            continue
                     break
-                elif usuario["cpf"] == cpf and usuario["senha"] != senha:
+                elif usuario[0] == login and usuario[1] != senha:
                     print("Senha incorreta.")
                     break
             else:
                 print("Usuário não encontrado.")
                 print("Faça o cadastro.")
-                continue
                 
     elif option == "2":
         print("Cadastro de Usuário")
-        cpf = input("Digite o CPF: ")
+        login = input("Digite o login: ")
         senha = input("Digite a senha: ")
         for usuario in usuarios:
-            if usuario["cpf"] == cpf:
+            if usuario[0] == login:
                 print("Usuário já cadastrado.")
                 break
         else:
-            usuarios.append({"cpf": cpf, "senha": senha, "créditos": 0})
+            novo_usuario = [login, senha, 0]
+            usuarios.append(novo_usuario)
             print("Usuário cadastrado com sucesso!")
                 
     elif option == "3":
@@ -213,4 +210,3 @@ while True:
         break
     else:
         print("Opção inválida. Tente novamente.")
-        continue
