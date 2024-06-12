@@ -199,7 +199,7 @@ def fazer_devolucao(usuario):
                         print("devolução realizada com sucesso!")
                         print("hora de devolução:", locacoes_efetuadas[usuario][2])
 
-                        locacoes[usuario] = []
+                        locacoes[usuario] = ["", "", ""]
                         usuarios[usuario][2] -= horas_utilizadas
                         if usuarios[usuario][2] < 0:
                             print("Você precisa pagar a diferença de horas utilizadas no valor de: ", -usuarios[usuario][2])
