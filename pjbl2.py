@@ -123,10 +123,6 @@ def validar_data(dia, mes, ano):
             return dia <= 28
     return False
 
-
-
-
-
 def fazer_locacao(usuario):
     #funcao que recebe como parametro o indice do usuario na lista usuarios[] que esta realizando a locacao
     #realiza a locacao de uma bicicleta para um usuario e atualiza a matriz de locacoes   
@@ -159,7 +155,7 @@ def fazer_locacao(usuario):
 def fazer_devolucao(usuario):
     #recebe como parametro o indice do usuario na lista usuarios[] que esta realizando a devolucao
     #funcao que realiza a devolucao de uma bicicleta para um usuario e atualiza a matriz de locacoes
-        if locacoes[usuario] == ["", "", ""]:
+        if locacoes[usuario] == []:
             return "Vazio"
         else:
             dia_devolucao = input("Digite o dia de devolução, no formato dd 01 - 31: ")
@@ -174,9 +170,6 @@ def fazer_devolucao(usuario):
                 if validar_data(dia_devolucao, mes_devolucao, ano_devolucao):
                     if (int(hora_devolucao) >= 0 and int(hora_devolucao) < 24) and (int(minuto_devolucao) >= 0 and int(minuto_devolucao) < 60):
                         
-                        
-
-
                         data_retirada = locacoes[usuario][1]
                         hora_retirada = locacoes[usuario][2]
                         print("data de retirada:", data_retirada)
@@ -215,23 +208,7 @@ def fazer_devolucao(usuario):
 
 def imprimir_relatorio(usuario):
     #funcao que recebe o indice do usuario na lista usuarios[] e
-    #imprime um relatorio de todas as locacoes realizadas ate o momento
-    if locacoes_efetuadas == []:
-        print("Não há locações realizadas anteriormente.")
-
-    if locacoes[usuario] == ["", "", ""]:
-        print("Não há locações em andamento.")
-    else:
-        print("relatório da locação atual:")
-        print("usuário:", locacoes[usuario][0])
-        print("data de retirada:", locacoes[usuario][1])
-        print("hora de retirada:", locacoes[usuario][2])
-        
-
-  
-
-
-    print("Relatório de locações anteriores: ")
+    #imprime um relatorio de todas as locacoes realizadas ate o momento        
     if locacoes_efetuadas[usuario] == []:
         print("Não há locações anteriores.")
     else:
@@ -242,7 +219,6 @@ def imprimir_relatorio(usuario):
             print("Data de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][3])
             print("Hora de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][4])
 
-  
 def login_usuario():
     #funcao que pede para o usuario digitar um nome de login e uma senha
     #realiza o login de um usuario e retorna o indice do usuario na lista usuarios[], o login e a senha do usuario
@@ -292,9 +268,7 @@ while True:
                             print("Locação realizada com sucesso.")
                         else:
                             print("Data ou hora inválida. Tente novamente.")
-
                             continue
-
                     else:
                         print("Você precisa de pelo menos 5 créditos.")
                 elif opcao_usuario == "2":
