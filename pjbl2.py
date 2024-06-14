@@ -213,11 +213,11 @@ def imprimir_relatorio(usuario):
         print("Não há locações anteriores.")
     else:
         for locacao_efetuada in range(len(locacoes_efetuadas[usuario])) :
-            print("Usuário:", locacoes_efetuadas[usuario][locacao_efetuada][0])
-            print("Data de retirada:", locacoes_efetuadas[usuario][locacao_efetuada][1])
-            print("Hora de retirada:", locacoes_efetuadas[usuario][locacao_efetuada][2])
-            print("Data de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][3])
-            print("Hora de devolução:", locacoes_efetuadas[usuario][locacao_efetuada][4])
+            print("Usuário:", locacoes_efetuadas[usuario][0])
+            print("Data de retirada:", locacoes_efetuadas[usuario][1])
+            print("Hora de retirada:", locacoes_efetuadas[usuario][2])
+            print("Data de devolução:", locacoes_efetuadas[usuario][3])
+            print("Hora de devolução:", locacoes_efetuadas[usuario][4])
 
 def login_usuario():
     #funcao que pede para o usuario digitar um nome de login e uma senha
